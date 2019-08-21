@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+	<settings>
+		<setting name="logImpl" value="LOG4J"/>
+	</settings>
+	
+	<typeAliases>
+		<package name="com.yx.busmis.security.model"/>		
+	</typeAliases>
+ 
+	<environments default="mysql">
+		<environment id="mysql">
+			<transactionManager type="JDBC" />
+			<!-- 配置数据库连接信息 -->
+			<dataSource type="POOLED">
+				<property name="driver" value="com.mysql.cj.jdbc.Driver" />
+				<property name="url" value="jdbc:mysql://10.1.53.65:3317/busmis?serverTimezone=GMT%2B8&amp;useUnicode=true&amp;characterEncoding=UTF-8" />
+				<property name="username" value="root" />
+				<property name="password" value="root" />
+			</dataSource>
+		</environment>
+	</environments>
+ 
+	<!-- 配置Mapper的位置 -->
+	<mappers>
+		<mapper resource="mappers/security/IUserDao.xml"></mapper>
+		<mapper resource="mappers/security/ISystemModelDao.xml"></mapper>
+		<mapper resource="mappers/security/ISystemFunctionDao.xml"></mapper>
+		<mapper resource="mappers/security/IRoleDao.xml"></mapper>
+	</mappers>
+</configuration>

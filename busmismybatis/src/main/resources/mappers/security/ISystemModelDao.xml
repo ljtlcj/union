@@ -1,0 +1,44 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yx.busmis.security.dao.ISystemModelDao">
+
+ 	<resultMap id="SystemModelResultMap" type="com.yx.busmis.security.model.SystemModel" >       
+		<id column="MNO" property="mno"/>      
+    	<result column="MNAME" property="mname"/>     
+    </resultMap>
+ 
+	<resultMap id="SystemModelResultMapWithFunctionBySelect" type="com.yx.busmis.security.model.SystemModel" extends="SystemModelResultMap">       
+		<collection property="sfmList" column="mno" select="com.yx.busmis.security.dao.ISystemFunctionDao.selectListByMno"></collection>															
+    </resultMap>
+	
+	<resultMap id="SystemModelResultMapWithFunctionByResultMap" type="com.yx.busmis.security.model.SystemModel" extends="SystemModelResultMap">       
+		<collection property="sfmList" resultMap="com.yx.busmis.security.dao.ISystemFunctionDao.SystemFunctionModelResultMap"></collection>
+    </resultMap>
+
+	<insert id="create">
+		insert into systemmodule (MNO,MNAME) values  (#{mno},#{mname})
+	</insert>
+	
+	<delete id="delete">
+		delete  from SystemModule where mno = #{mno}
+	</delete>
+	
+	<select id="selectListByAll" resultMap="SystemModelResultMap">
+		select * from systemmodule
+	 </select>
+	 
+	 <select id="selectListByAllWithfunctionBySelect" resultMap="SystemModelResultMapWithFunctionBySelect">
+		select * from systemmodule
+	 </select>
+	 
+	 <select id="selectListByAllWithfunctionByResultMap" resultMap="SystemModelResultMapWithFunctionByResultMap">
+		select * from systemmodule a,systemfunction b where a.mno = b.mno;
+	 </select>
+	 
+	 <select id="selectByMno" resultMap="SystemModelResultMap">
+		select * from systemmodule where MNO = #{mno}
+	 </select>
+</mapper>

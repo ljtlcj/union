@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+        
+<mapper namespace="com.yx.busmis.security.dao.IUserDao">
+
+	<insert id="create">
+		insert into userinfo (USERID,USERNAME,USERPASSWORD,USERROLE) values  (#{userid},#{username},#{userpassword},#{userrole})
+	</insert>
+
+	<update id="update">
+		update userinfo set UserPassword=#{userpassword},UserName=#{username},userrole=#{userrole}
+		where userid=#{userid}
+	</update>
+	
+	<delete id="delete">
+		delete from userinfo where username = #{username} and userpassword = #{userpassword}
+	</delete>
+	
+	<select id="selectById">
+		select * from userinfo where userid = #{userid}
+	</select>
+	
+	<select id="selectListByAll" resultType="UserModel">
+		select userid,username,userpassword, userrole from userinfo 
+	</select>
+</mapper>        

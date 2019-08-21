@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.yx.busmis.security.dao.ISystemFunctionDao" >
+
+	<resultMap id="SystemFunctionModelResultMap" type="com.yx.busmis.security.model.SystemFunctionModel" >       
+		<id column="FUNNO" property="funno"/>      
+    	<result column="MNO" property="mno"/>     
+    	<result column="FUNNAME" property="funname"/>   
+    	<result column="FUNURL" property="funurl"/>   
+    </resultMap>
+ 
+ 	<resultMap id="SystemFunctionModelResultMapWithModelBySelect" type="com.yx.busmis.security.model.SystemFunctionModel" extends="SystemFunctionModelResultMap">       
+  		<collection property="sm" column="mno" select="com.yx.busmis.security.dao.ISystemModelDao.selectByMno"></collection>
+    </resultMap>
+ 
+ 	 <resultMap id="SystemFunctionModelResultMapWithModelByResultMap" type="com.yx.busmis.security.model.SystemFunctionModel" extends="SystemFunctionModelResultMap">       
+  		<collection property="sm" resultMap="com.yx.busmis.security.dao.ISystemModelDao.SystemModelResultMap"></collection>
+    </resultMap>
+ 
+
+	<insert id="create" keyProperty="funno" keyColumn="FUNNO" useGeneratedKeys="true">
+		insert into SystemFunction (MNO,FUNNAME,FUNURL) values  (#{sm.mno},#{funname},#{funurl})
+	</insert>
+	
+	<delete id="delete">
+		delete  from SystemFunction where funno = #{funno}
+	</delete>
+	
+	<select id="selectListByMno" resultMap="SystemFunctionModelResultMap">
+		select * from systemfunction where MNO = #{mno}
+	</select>
+	
+	<select id="selectListByAll" resultMap="SystemFunctionModelResultMap">
+		select * from systemfunction 
+	</select>
+	
+	<select id="selectListByAllWithModelBySelect" resultMap="SystemFunctionModelResultMapWithModelBySelect">
+		select * from systemfunction 
+	</select>
+	
+	<select id="selectListByAllWithModelByResultMap" resultMap="SystemFunctionModelResultMapWithModelByResultMap">
+		 select a.*,b.* from systemfunction a,systemmodule b where a.mno=b.mno 
+	</select>
+	
+</mapper>
